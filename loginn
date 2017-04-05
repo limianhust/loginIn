@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://js.jirengu.com
+
+Copyright (c) 2017 by anonymous (http://js.jirengu.com/geluyovaki/4/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+<style id="jsbin-css">
+.login{
+  border: 1px solid #ccc;
+  padding: 1px 20px;
+  min-width: 20em;
+  box-shadow: 0 0 0 1000px rgba(0,0,0,0.2);
+  overflow: hidden;
+  border-radius: 4px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%)
+}
+.login .title .cancel{
+	float: right;
+	cursor: pointer;
+}
+.login input{
+  outline: none;
+  line-height: 1.4em;
+  font-size: 16px;
+  color: #000;
+}
+.login button{
+  display: block;
+  padding: 5px 20px;
+  text-align: center;
+}
+.focus{
+  background: #7bc;
+}
+</style>
+</head>
+<body>
+
+
+<script id="jsbin-javascript">
+function Dialog(options){
+  this.options = options
+  this._prepareHtml()
+  this._bindEvents()
+  this._mount()
+}
+Dialog.prototype._prepareHtml = function(){
+  var {title,formContent,button} = this.options
+  var div =this.div = document.createElement('div')
+  $(div).addClass('login')
+  $(div).html(`<header class="title"><span class=cancel>X</span><p>${title}</p></header>`)
+  var formString = `<form class='form' action='/login' method='get' ><lable for='name'>${formContent.name[0]}</lable>
+    <input type='text' class='name focus' name='${formContent.name[1]}'><br>
+    <lable for='password'>${formContent.password[0]}</lable>
+    <input type='password' class='password' name='${formContent.password[1]}'></form>`
+    var $form = $(formString)
+  var $button = $(`<button>${button}</button>`)
+  $form.append($button)
+  $(div).append($form)
+  $(document.body).append($(div))
+}
+Dialog.prototype._bindEvents = function(){
+  var $div = $(this.div)
+  var dialog = this
+  console.log(dialog)
+  $div.on('click','.cancel',function(e){
+  	console.log(e.target)
+  	console.log(e.currentTarget)
+    dialog.close()
+  })
+}
+Dialog.prototype._mount = function(){
+  
+}
+Dialog.prototype.close = function(){
+	$(this.div).remove()
+}
+
+
+var dialog = new Dialog({
+  title: '请登陆',
+  formContent: {
+    name: ['姓名：','name'],
+    password: ['密码：','password']
+  },
+  button: '我要登陆'
+})
+</script>
+</body>
+</html>
